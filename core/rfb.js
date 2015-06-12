@@ -10,8 +10,10 @@
  * (c) 2012 Michael Tinglof, Joe Balaz, Les Piech (Mercuri.ca)
  */
 
+/* [module] Name: RFB ; Requires: Util, Display, Keyboard, Mouse, Websock, Base64, DES, KeyTable, TINF */
+
 /*jslint white: false, browser: true */
-/*global window, Util, Display, Keyboard, Mouse, Websock, Websock_native, Base64, DES */
+/*global window, Util, Display, Keyboard, Mouse, Websock, Base64, DES, KeyTable */
 
 var RFB;
 
@@ -213,21 +215,8 @@ var RFB;
         this._init_vars();
 
         var rmode = this._display.get_render_mode();
-        if (Websock_native) {
-            Util.Info("Using native WebSockets");
-            this._updateState('loaded', 'noVNC ready: native WebSockets, ' + rmode);
-        } else {
-            Util.Warn("Using web-socket-js bridge.  Flash version: " + Util.Flash.version);
-            if (!Util.Flash || Util.Flash.version < 9) {
-                this._cleanupSocket('fatal');
-                throw new Exception("WebSockets or <a href='http://get.adobe.com/flashplayer'>Adobe Flash</a> is required");
-            } else if (document.location.href.substr(0, 7) === 'file://') {
-                this._cleanupSocket('fatal');
-                throw new Exception("'file://' URL is incompatible with Adobe Flash");
-            } else {
-                this._updateState('loaded', 'noVNC ready: WebSockets emulation, ' + rmode);
-            }
-        }
+        Util.Info("Using native WebSockets");
+        this._updateState('loaded', 'noVNC ready: native WebSockets, ' + rmode);
 
         Util.Debug("<< RFB.constructor");
     };
@@ -265,12 +254,12 @@ var RFB;
             Util.Info("Sending Ctrl-Alt-Del");
 
             var arr = [];
-            arr = arr.concat(RFB.messages.keyEvent(XK_Control_L, 1));
-            arr = arr.concat(RFB.messages.keyEvent(XK_Alt_L, 1));
-            arr = arr.concat(RFB.messages.keyEvent(XK_Delete, 1));
-            arr = arr.concat(RFB.messages.keyEvent(XK_Delete, 0));
-            arr = arr.concat(RFB.messages.keyEvent(XK_Alt_L, 0));
-            arr = arr.concat(RFB.messages.keyEvent(XK_Control_L, 0));
+            arr = arr.concat(RFB.messages.keyEvent(KeyTable.XK_Control_L, 1));
+            arr = arr.concat(RFB.messages.keyEvent(KeyTable.XK_Alt_L, 1));
+            arr = arr.concat(RFB.messages.keyEvent(KeyTable.XK_Delete, 1));
+            arr = arr.concat(RFB.messages.keyEvent(KeyTable.XK_Delete, 0));
+            arr = arr.concat(RFB.messages.keyEvent(KeyTable.XK_Alt_L, 0));
+            arr = arr.concat(RFB.messages.keyEvent(KeyTable.XK_Control_L, 0));
             this._sock.send(arr);
         },
 

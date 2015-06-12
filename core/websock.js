@@ -14,40 +14,12 @@
  * read binary data off of the receive queue.
  */
 
+/* [module] Name: Websock ; Requires: Util, Base64 */
+
 /*jslint browser: true, bitwise: true */
 /*global Util, Base64 */
 
-
-// Load Flash WebSocket emulator if needed
-
-// To force WebSocket emulator even when native WebSocket available
-//window.WEB_SOCKET_FORCE_FLASH = true;
-// To enable WebSocket emulator debug:
-//window.WEB_SOCKET_DEBUG=1;
-
-if (window.WebSocket && !window.WEB_SOCKET_FORCE_FLASH) {
-    Websock_native = true;
-} else if (window.MozWebSocket && !window.WEB_SOCKET_FORCE_FLASH) {
-    Websock_native = true;
-    window.WebSocket = window.MozWebSocket;
-} else {
-    /* no builtin WebSocket so load web_socket.js */
-
-    Websock_native = false;
-    (function () {
-        window.WEB_SOCKET_SWF_LOCATION = Util.get_include_uri() +
-                    "web-socket-js/WebSocketMain.swf";
-        if (Util.Engine.trident) {
-            Util.Debug("Forcing uncached load of WebSocketMain.swf");
-            window.WEB_SOCKET_SWF_LOCATION += "?" + Math.random();
-        }
-        Util.load_scripts(["web-socket-js/swfobject.js",
-                           "web-socket-js/web_socket.js"]);
-    })();
-}
-
-
-function Websock() {
+var Websock = function () {
     "use strict";
 
     this._websocket = null;  // WebSocket object
@@ -65,7 +37,7 @@ function Websock() {
         'close': function () {},
         'error': function () {}
     };
-}
+};
 
 (function () {
     "use strict";

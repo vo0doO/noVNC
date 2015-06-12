@@ -110,18 +110,18 @@ module.exports = function(config) {
     files: [
       'tests/fake.*.js',
       'tests/assertions.js',
-      'include/util.js',  // load first to avoid issues, since methods are called immediately
+      'core/util.js',  // load first to avoid issues, since methods are called immediately
       //'../include/*.js',
-      'include/base64.js',
-      'include/keysym.js',
-      'include/keysymdef.js',
-      'include/keyboard.js',
-      'include/input.js',
-      'include/websock.js',
-      'include/rfb.js',
-      'include/jsunzip.js',
-      'include/des.js',
-      'include/display.js',
+      'core/base64.js',
+      'core/keysym.js',
+      'core/keysymdef.js',
+      'core/keyboard.js',
+      'core/input.js',
+      'core/websock.js',
+      'core/rfb.js',
+      'core/jsunzip.js',
+      'core/des.js',
+      'core/display.js',
       'tests/test.*.js'
     ],
 
